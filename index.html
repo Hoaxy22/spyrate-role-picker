@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crewmate or Spy</title>
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #f0f8ff;
+            text-align: center;
+            padding: 50px;
+        }
+        #result {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+        button {
+            font-size: 18px;
+            padding: 10px 20px;
+            background-color: #BBDBF4;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #a3cbe6;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Crewmate or Spy?</h1>
+    <p>Click the button to get your role</p>
+
+    <button id="getRoleBtn">Get My Role</button>
+
+    <div id="result"></div>
+
+    <script>
+        async function getRole() {
+            try {
+                const response = await fetch('http://localhost:3000/get-role'); // Fetch role from server
+                const data = await response.json();
+
+                if (data.role) {
+                    document.getElementById('result').innerHTML = `You are a ${data.role}!`;
+                } else {
+                    document.getElementById('result').innerHTML = data.message;
+                }
+            } catch (error) {
+                console.error('Error fetching role:', error);
+                document.getElementById('result').innerHTML = "Error getting role. Try again later.";
+            }
+        }
+
+        document.getElementById('getRoleBtn').addEventListener('click', getRole);
+    </script>
+
+</body>
+</html>
